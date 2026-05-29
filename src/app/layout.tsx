@@ -1,11 +1,12 @@
 // src/app/layout.tsx
 "use client";
 
+import "./globals.css";
 import React, { useState, useEffect } from "react";
 import { Roboto } from "next/font/google";
 import { StoreProvider } from "../contexts/StoreContext";
 import { AnimatePresence, motion } from "framer-motion";
-import "./globals.css";
+
 
 // CORREÇÃO: Utilizando importação relativa (../) em vez de Path Alias (@/) 
 // para evitar erros de resolução de módulo no TypeScript.

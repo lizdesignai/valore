@@ -150,7 +150,7 @@ export default function Inimigo(): React.ReactElement {
         >
           <div className="inline-flex flex-col items-center">
             <p className="font-roboto text-sm tracking-[0.5em] opacity-40 mb-8">
-              O VRTICE DESENVOLVEU UMA NOVA INFRAESTRUTURA
+              O ATELIER DESENVOLVEU UMA NOVA INFRAESTRUTURA
             </p>
             <div className="w-px h-24 bg-gradient-to-b from-transparent via-[var(--color-atelier-terracota)] to-transparent" />
           </div>

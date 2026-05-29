@@ -1,20 +1,30 @@
 {
+  "name": "valore",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
-    "@supabase/supabase-js": "^2.106.2",
+    "@supabase/supabase-js": "^2.48.1",
+    "@tailwindcss/postcss": "^4.3.0",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.40.0",
+    "framer-motion": "^12.0.0",
     "lucide-react": "^1.17.0",
-    "next": "^16.2.6",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "tailwind-merge": "^3.6.0"
+    "next": "15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.0.0"
   },
   "devDependencies": {
-    "@types/node": "^25.9.1",
-    "@types/react": "^19.2.15",
-    "@types/react-dom": "^19.2.3",
-    "autoprefixer": "^10.5.0",
-    "postcss": "^8.5.15",
-    "tailwindcss": "^4.3.0"
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "postcss": "^8.0.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.0.0"
   }
 }
