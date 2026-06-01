@@ -6,6 +6,7 @@ import HeroVSL from "../components/landing/HeroVSL";
 import DelayWrapper from "../components/landing/DelayWrapper";
 import Epidemia from "../components/landing/Epidemia";
 import Inimigo from "../components/landing/Inimigo";
+import Founder from "../components/landing/Founder";
 import Oferta from "../components/landing/Oferta";
 import AtelierAccess from "../components/landing/AtelierAccess";
 import Selection from "../components/landing/Selection";
@@ -64,6 +65,11 @@ export default function LandingPage(): React.ReactElement {
         {/* Bloco de Operação e Telemetria (Atelier) */}
         <div id="atelier-layer">
           <AtelierAccess />
+        </div>
+
+        {/* NOVA SECÇÃO: Apresentação da Fundadora e Autoridade */}
+        <div id="founder-layer">
+          <Founder />
         </div>
 
         {/* Bloco de Filtro de Admissão e Escassez */}

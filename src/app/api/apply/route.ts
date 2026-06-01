@@ -4,18 +4,17 @@ import { supabase } from '../../../lib/supabase';
 
 /**
  * Endpoint: POST /api/apply
- * 
- * Objetivo: Receber, validar e processar de forma segura os dados 
- * do formulário de admissão do protocolo VALORE.
+ * * Objetivo: Receber, validar e processar de forma segura os dados 
+ * do formulário de admissão do protocolo VALORE, agora com captação de WhatsApp.
  */
 export async function POST(request: Request) {
   try {
     // 1. Recebemos e abrimos o "pacote" de dados enviado pelo formulário
     const body = await request.json();
-    const { nome, empresa, instagram, email } = body;
+    const { nome, empresa, instagram, whatsapp, email } = body; // Adicionado 'whatsapp'
 
     // 2. Validação Básica: Verificamos se todos os campos obrigatórios vieram
-    if (!nome || !empresa || !instagram || !email) {
+    if (!nome || !empresa || !instagram || !whatsapp || !email) { // Adicionado 'whatsapp'
       return NextResponse.json(
         { error: 'Todos os campos são obrigatórios para a auditoria.' },
         { status: 400 } // 400 significa "Bad Request" (Pedido Inválido)
@@ -23,11 +22,12 @@ export async function POST(request: Request) {
     }
 
     // 3. Limpeza de Dados (Sanitização)
-    // Removemos espaços vazios e garantimos que o Instagram começa com '@'
     let cleanInstagram = instagram.trim();
     if (!cleanInstagram.startsWith('@')) {
       cleanInstagram = `@${cleanInstagram}`;
     }
+    
+    const cleanWhatsapp = whatsapp.trim(); // Limpeza básica do WhatsApp
 
     // 4. Inserção Segura no Supabase (Backend para Backend)
     const { data, error } = await supabase
@@ -37,7 +37,8 @@ export async function POST(request: Request) {
           nome: nome.trim(),
           empresa: empresa.trim(),
           instagram: cleanInstagram,
-          email: email.trim().toLowerCase(), // Guardamos o email em letras minúsculas
+          whatsapp: cleanWhatsapp, // Inserindo o novo campo na base de dados
+          email: email.trim().toLowerCase(),
           status: 'pending',
           applied_at: new Date().toISOString()
         }

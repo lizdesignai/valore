@@ -1,16 +1,9 @@
 // src/app/layout.tsx
-"use client";
-
 import "./globals.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Roboto } from "next/font/google";
-import { StoreProvider } from "../contexts/StoreContext";
-import { AnimatePresence, motion } from "framer-motion";
-
-
-// CORREÇÃO: Utilizando importação relativa (../) em vez de Path Alias (@/) 
-// para evitar erros de resolução de módulo no TypeScript.
-import Preloader from "../components/global/Preloader";
+import Script from "next/script"; // Importação nativa do Next.js para scripts externos
+import ClientWrapper from "../components/global/ClientWrapper"; // O nosso novo embrulho
 
 const roboto = Roboto({ 
   weight: ['300', '400', '500', '700'],
@@ -18,43 +11,50 @@ const roboto = Roboto({
   variable: '--font-roboto',
 });
 
+// AÇÃO: Configuração do Metadata (Título e Favicon)
+// Como este arquivo agora é de Servidor, o Next.js reconhece este objeto automaticamente.
+export const metadata = {
+  title: "Vallore | LizDesign",
+  description: "Infraestrutura de Autoridade Digital por LizDesign.",
+  icons: {
+    icon: "/images/logo.png", // Certifique-se de que a imagem está em public/images/logo.png
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [isInitializing, setIsInitializing] = useState(true);
-
-  useEffect(() => {
-    // Simulando calibração de sistemas e carregamento de assets de luxo
-    const timer = setTimeout(() => setIsInitializing(false), 4000);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <html lang="pt-BR" className={roboto.variable}>
+      <head>
+        {/* AÇÃO: Injeção do Google Tag Manager (Otimizado) */}
+        {/* Usamos strategy="afterInteractive" para não bloquear a renderização da página */}
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-PPJW7DNF');
+          `}
+        </Script>
+      </head>
+      
       <body className="font-roboto selection:bg-[var(--color-atelier-terracota)] selection:text-white">
         
-        {/* Adicionamos o Provider aqui para abraçar toda a aplicação */}
-        <StoreProvider>
-          
-          <AnimatePresence mode="wait">
-            {isInitializing && <Preloader key="preloader" />}
-          </AnimatePresence>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isInitializing ? 0 : 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="relative min-h-screen"
-          >
-            {/* Sombras e Iluminação de Fundo Globais */}
-            <div className="fixed top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[var(--color-atelier-terracota)]/5 blur-[120px] rounded-full pointer-events-none -z-10" />
-            <div className="fixed bottom-[-15%] right-[-10%] w-[600px] h-[600px] bg-[var(--color-atelier-rose)]/10 blur-[150px] rounded-full pointer-events-none -z-10" />
-
-            <main className="w-full h-full relative z-10">
-              {children}
-            </main>
-          </motion.div>
-
-        </StoreProvider>
-
+        {/* AÇÃO: Injeção do GTM (Noscript para usuários com JS desativado) */}
+        <noscript>
+          <iframe 
+            src="https://www.googletagmanager.com/ns.html?id=GTM-PPJW7DNF"
+            height="0" 
+            width="0" 
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+        
+        {/* Todo o visual interativo que conservámos agora é carregado aqui */}
+        <ClientWrapper>
+          {children}
+        </ClientWrapper>
+        
       </body>
     </html>
   );

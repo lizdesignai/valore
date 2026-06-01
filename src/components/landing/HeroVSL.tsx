@@ -2,9 +2,10 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Play, Pause, Volume2, VolumeX, X } from "lucide-react"; // Adicionado ícone X para o botão de fechar
 import { cn } from "../../lib/utils";
+import ApplicationForm from "../forms/ApplicationForm"; // Importação do Formulário para dentro do Modal
 
 /**
  * HeroVSL - A Fase 1 (Above the Fold)
@@ -17,9 +18,13 @@ export default function HeroVSL(): React.ReactElement {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  
+  // NOVO: Estado para controlar a abertura do Popup (Modal)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Efeito para travar o scroll na montagem do componente (Fase 1)
   useEffect(() => {
+    // Mantém a página travada para focar na VSL
     document.body.classList.add('lock-scroll');
     return () => document.body.classList.remove('lock-scroll');
   }, []);
@@ -140,7 +145,7 @@ export default function HeroVSL(): React.ReactElement {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.4 }}
           transition={{ delay: 2 }}
-          className="mt-8 flex items-center gap-3 text-[10px] uppercase tracking-widest text-[var(--color-atelier-creme)]"
+          className="mt-6 flex items-center gap-3 text-[10px] uppercase tracking-widest text-[var(--color-atelier-creme)]"
         >
           <div className="flex gap-1">
             <span className="w-1 h-3 bg-current animate-pulse" />
@@ -150,7 +155,56 @@ export default function HeroVSL(): React.ReactElement {
           VERIFIQUE O VOLUME DO SEU DISPOSITIVO
         </motion.div>
 
+        {/* NOVO: Botão de Chamada para o Popup */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2.2, duration: 0.8, ease: "easeOut" }}
+          className="mt-10"
+        >
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="premium-button"
+          >
+            CANDIDATAR-ME AO VALLORE
+          </button>
+        </motion.div>
+
       </div>
+
+      {/* NOVO: Infraestrutura do Popup (Modal) */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            className="fixed inset-0 z-[99999] flex items-center justify-center bg-[#0a0908]/80 p-4 md:p-8"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-[2rem] bg-[#fbf4e4] shadow-2xl border border-white/10 no-scrollbar"
+            >
+              {/* Botão de Fechar o Popup */}
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-6 right-6 z-[100000] w-10 h-10 flex items-center justify-center rounded-full bg-[#0a0908]/5 hover:bg-[#0a0908]/10 text-[#7a7470] transition-colors"
+              >
+                <X size={20} />
+              </button>
+
+              {/* Injeção do Formulário */}
+              <div className="relative w-full">
+                <ApplicationForm />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 }

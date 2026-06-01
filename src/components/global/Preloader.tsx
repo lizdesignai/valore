@@ -1,39 +1,93 @@
 // src/components/global/Preloader.tsx
 "use client";
 
-import React from 'react';
-import { motion, Variants } from "framer-motion";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from "framer-motion";
+
+// ==========================================
+// LÓGICA DO MOSAICO DE FUNDO (MATRIZ VIVA)
+// ==========================================
+const BASE_LOGOS = Array.from({ length: 20 }, (_, i) => `${i + 1}`);
+const DUP_LOGOS = BASE_LOGOS.map(l => `${l}_dup`); 
+const EMPTY_SLOTS = Array.from({ length: 9 }, (_, i) => `empty_${i}`); 
+const ALL_ITEMS = [...BASE_LOGOS, ...DUP_LOGOS, ...EMPTY_SLOTS];
+
+function shuffleArray(array: string[]) {
+  const newArr = [...array];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+}
 
 /**
  * Preloader Cinematográfico VALORE
  * 
- * Solução de Erro de Namespace: 
- * Utilizamos React.ReactElement para garantir compatibilidade com o 
- * novo JSX Transform do React 18/19 e Next.js 15.
+ * Removemos as barras de carregamento e injetámos a Matriz de Ecossistema 
+ * para criar uma transição de altíssimo padrão.
  */
 export default function Preloader(): React.ReactElement {
-  const text: string = "INICIANDO PROTOCOLO";
-  const letters: string[] = Array.from(text);
+  // Estados para o Mosaico
+  const [grid, setGrid] = useState<string[]>([]);
+  const [depths, setDepths] = useState<Record<string, { scale: number, blur: number, opacity: number }>>({});
 
-  // Variantes para a revelação suave (Stagger Effect)
-  const containerVariants: Variants = {
-    hidden: { opacity: 1 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.08, 
-        delayChildren: 1.2 
-      } 
-    }
-  };
+  useEffect(() => {
+    // Configuração inicial do Mosaico
+    setGrid(shuffleArray(ALL_ITEMS));
 
-  const letterVariants: Variants = {
-    hidden: { opacity: 0, y: 12, filter: "blur(5px)" },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      filter: "blur(0px)",
-      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } 
+    const depthMap: Record<string, any> = {};
+    ALL_ITEMS.forEach(item => {
+      if (!item.startsWith('empty')) {
+        const layer = Math.random();
+        // Calibragem elegante para o fundo claro (Creme)
+        if (layer < 0.33) depthMap[item] = { scale: 0.5, blur: 5, opacity: 0.08 }; 
+        else if (layer < 0.66) depthMap[item] = { scale: 0.8, blur: 3, opacity: 0.15 }; 
+        else depthMap[item] = { scale: 1.1, blur: 1, opacity: 0.25 }; 
+      }
+    });
+    setDepths(depthMap);
+
+    // Lógica de embaralhamento cinético
+    const interval = setInterval(() => {
+      setGrid(prevGrid => {
+        const newGrid = [...prevGrid];
+        const filledIds: number[] = [];
+        const emptyIds: number[] = [];
+        
+        newGrid.forEach((val, i) => {
+          if (val.startsWith('empty')) emptyIds.push(i);
+          else filledIds.push(i);
+        });
+
+        for(let k = 0; k < 6; k++) {
+          if(filledIds.length === 0 || emptyIds.length === 0) break;
+          const fIdx = Math.floor(Math.random() * filledIds.length);
+          const eIdx = Math.floor(Math.random() * emptyIds.length);
+          
+          const gridFIdx = filledIds[fIdx];
+          const gridEIdx = emptyIds[eIdx];
+
+          const temp = newGrid[gridFIdx];
+          newGrid[gridFIdx] = newGrid[gridEIdx];
+          newGrid[gridEIdx] = temp;
+
+          filledIds.splice(fIdx, 1);
+          emptyIds.splice(eIdx, 1);
+        }
+        return newGrid;
+      });
+    }, 1500); // Mais rápido que o normal para garantir movimento no curto tempo do preloader
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const currentSrc = e.currentTarget.src;
+    if (currentSrc.includes('.png')) {
+      e.currentTarget.src = currentSrc.replace('.png', '.svg');
+    } else {
+      e.currentTarget.style.display = 'none'; 
     }
   };
 
@@ -44,25 +98,59 @@ export default function Preloader(): React.ReactElement {
       transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
       className="fixed inset-0 z-[99999] bg-[#fbf4e4] flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Atmosfera Retinal (Glows de Profundidade) */}
+      {/* 1. O Mosaico Dinâmico (Fundo) */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-60">
+        <div className="absolute inset-0 grid grid-cols-7 grid-rows-7 p-4 md:p-12 items-center justify-items-center">
+          {grid.map((item, index) => (
+            <div key={index} className="flex items-center justify-center relative w-full h-full">
+              <AnimatePresence mode="wait">
+                {item && !item.startsWith('empty') && (
+                  <motion.img
+                    layout
+                    key={item}
+                    src={`/images/login/${item.replace('_dup', '')}.png`}
+                    onError={handleImageError}
+                    initial={{ opacity: 0, filter: 'blur(20px) grayscale(100%)', scale: 0.8 }}
+                    animate={{ 
+                      opacity: depths[item]?.opacity, 
+                      filter: `blur(${depths[item]?.blur}px) grayscale(100%)`, 
+                      scale: depths[item]?.scale
+                    }}
+                    exit={{ opacity: 0, filter: 'blur(20px) grayscale(100%)', scale: 0.8 }}
+                    transition={{ 
+                      layout: { type: "spring", stiffness: 50, damping: 20 },
+                      opacity: { duration: 1.5 },
+                      filter: { duration: 1.5 }
+                    }}
+                    className="absolute max-w-[60%] max-h-[60%] object-contain"
+                    alt=""
+                  />
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 2. Atmosfera Retinal (Glows de Profundidade) */}
       <motion.div 
         animate={{ 
           scale: [1, 1.15, 1], 
           opacity: [0.15, 0.3, 0.15] 
         }} 
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute w-[80vw] h-[80vw] md:w-[600px] md:h-[600px] bg-[#c9a39b]/20 blur-[100px] rounded-full pointer-events-none"
+        className="absolute z-0 w-[80vw] h-[80vw] md:w-[600px] md:h-[600px] bg-[#c9a39b]/20 blur-[100px] rounded-full pointer-events-none"
       />
 
+      {/* 3. Oráculo: Logo Atelier LizDesign Animado (Frente) */}
       <div className="relative z-10 flex flex-col items-center">
-        {/* Oráculo: Logo Atelier LizDesign Animado */}
         <motion.svg 
           width="120" 
           height="120" 
           viewBox="0 0 457 461" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
-          className="mb-10 drop-shadow-2xl md:w-[150px] md:h-[150px]"
+          className="drop-shadow-2xl md:w-[150px] md:h-[150px]"
         >
           {/* Path 1: O Desvendar da Estrutura */}
           <motion.path 
@@ -91,34 +179,6 @@ export default function Preloader(): React.ReactElement {
             }}
           />
         </motion.svg>
-
-        {/* Barra de Progresso High-Tech (Telemetria) */}
-        <div className="w-40 md:w-56 h-[1.5px] bg-[#7a7470]/10 rounded-full overflow-hidden mb-8 relative">
-          <motion.div 
-            initial={{ left: "-100%" }}
-            animate={{ left: "100%" }}
-            transition={{ duration: 1.8, ease: "easeInOut", repeat: Infinity }}
-            className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-[#ad6f40] to-transparent"
-          />
-        </div>
-
-        {/* Texto Animado Segmentado */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex items-center font-sans text-[0.6rem] md:text-[0.7rem] text-[#7a7470] tracking-[0.4em] uppercase font-bold"
-        >
-          {letters.map((letter, index) => (
-            <motion.span 
-              key={`letter-${index}`} 
-              variants={letterVariants}
-              className="inline-block"
-            >
-              {letter === " " ? "\u00A0" : letter}
-            </motion.span>
-          ))}
-        </motion.div>
       </div>
     </motion.div>
   );
