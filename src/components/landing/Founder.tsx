@@ -160,15 +160,10 @@ export default function Founder(): React.ReactElement {
           {/* Lado Esquerdo: Fotografia */}
           <div className="w-full md:w-2/5 relative min-h-[400px] md:min-h-[600px] bg-[#1a1a1a]">
             <img 
-<<<<<<< HEAD
               src="/images/liz-profile.JPG" 
               alt="Liz - Diretora Criativa" 
               className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-80 mix-blend-luminosity hover:grayscale-0 transition-all duration-1000"
-=======
-              src="/images/liz-profile.jpg" 
-              alt="Liz - Diretora de Posicionamento" 
-              className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-80 mix-blend-luminosity hover:grayscale-0 hover:opacity-100 transition-all duration-1000"
->>>>>>> a59bf33 (.)
+
             />
             {/* Gradiente interno para fundir a foto ao design escuro */}
             <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[var(--color-luxury-void)]/90 via-[var(--color-luxury-void)]/30 to-transparent" />
