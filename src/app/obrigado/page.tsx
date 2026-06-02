@@ -216,7 +216,7 @@ export default function ObrigadoPage(): React.ReactElement {
           <div className="w-full md:w-5/12 relative">
             <div className="aspect-[4/5] md:aspect-[5/6] w-full rounded-2xl overflow-hidden bg-[#161616] shadow-[0_25px_60px_rgba(0,0,0,0.6)] border border-white/10 relative group">
               <img 
-                src="/images/liz.jpg" 
+                src="/images/liz.JPG" 
                 alt="Liz - Diretora Criativa" 
                 className="absolute inset-0 w-full h-full object-cover grayscale opacity-75 mix-blend-luminosity group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
               />
