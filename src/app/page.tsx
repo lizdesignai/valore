@@ -10,16 +10,17 @@ import Founder from "../components/landing/Founder";
 import Oferta from "../components/landing/Oferta";
 import AtelierAccess from "../components/landing/AtelierAccess";
 import Selection from "../components/landing/Selection";
+import AudioProof from "../components/landing/AudioProof"; // NOVO: Componente de Provas em Áudio
 import ApplicationForm from "../components/forms/ApplicationForm";
 import FAQ from "../components/landing/FAQ";
 
 /**
- * Landing Page VALORE - Orquestrador de Infraestrutura
+ * Landing Page VALLORE - Orquestrador de Infraestrutura
  * 
  * Este ficheiro atua como o ponto central de montagem da página.
  * Integra a Fase 1 (Imediata) com a Fase 2 (Revelada via Delay).
  * 
- * @author LizDesign Senior Architecture
+ * @author Liz Design Senior Architecture
  */
 export default function LandingPage(): React.ReactElement {
   
@@ -31,7 +32,7 @@ export default function LandingPage(): React.ReactElement {
   const VSL_DELAY_SECONDS: number = 10; 
 
   return (
-    <div className="flex flex-col w-full bg-[#fbf4e4]">
+    <div className="flex flex-col w-full bg-[var(--color-luxury-void)]">
       
       {/* 
           FASE 1: VISÍVEL IMEDIATAMENTE 
@@ -67,7 +68,7 @@ export default function LandingPage(): React.ReactElement {
           <AtelierAccess />
         </div>
 
-        {/* NOVA SECÇÃO: Apresentação da Fundadora e Autoridade */}
+        {/* SECÇÃO: Apresentação da Fundadora e Autoridade */}
         <div id="founder-layer">
           <Founder />
         </div>
@@ -75,6 +76,11 @@ export default function LandingPage(): React.ReactElement {
         {/* Bloco de Filtro de Admissão e Escassez */}
         <div id="selection-layer">
           <Selection />
+        </div>
+
+        {/* NOVA SECÇÃO: Provas Sociais em Áudio */}
+        <div id="proof-layer">
+          <AudioProof />
         </div>
 
         {/* Bloco de Crivo Final (Captação de Aplicações) */}
@@ -88,23 +94,23 @@ export default function LandingPage(): React.ReactElement {
         </div>
 
         {/* Rodapé de Luxo Silencioso */}
-        <footer className="relative py-20 bg-[#0a0908] border-t border-white/5 flex flex-col items-center">
+        <footer className="relative py-20 bg-[var(--color-luxury-void)] border-t border-white/5 flex flex-col items-center">
           <div className="vrtice-container flex flex-col items-center gap-8">
             <img 
-              src="/images/logo.png" 
-              alt="LizDesign Logo" 
-              className="h-8 opacity-40 grayscale brightness-200" 
+              src="/images/simbolo-rosa.png" 
+              alt="Liz Design Logo" 
+              className="h-10 opacity-30 grayscale brightness-200" 
               onError={(e) => (e.currentTarget.style.display = 'none')}
             />
             
             <nav className="flex flex-wrap justify-center gap-6 md:gap-12 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold text-white/30">
-              <a href="#" className="hover:text-[#ad6f40] transition-colors">Termos de Uso</a>
-              <a href="#" className="hover:text-[#ad6f40] transition-colors">Privacidade Blindada</a>
-              <a href="#" className="hover:text-[#ad6f40] transition-colors">Protocolo Atelier</a>
+              <a href="#" className="hover:text-[var(--color-atelier-terracota)] transition-colors">Termos de Uso</a>
+              <a href="#" className="hover:text-[var(--color-atelier-terracota)] transition-colors">Privacidade Blindada</a>
+              <a href="#" className="hover:text-[var(--color-atelier-terracota)] transition-colors">Protocolo Atelier</a>
             </nav>
 
             <p className="font-roboto text-[8px] md:text-[9px] uppercase tracking-[0.5em] text-white/10 mt-4 text-center">
-              © {new Date().getFullYear()} LizDesign Architecture — Infrastructure of Power
+              © {new Date().getFullYear()} Liz Design Architecture — Infrastructure of Power
             </p>
           </div>
         </footer>

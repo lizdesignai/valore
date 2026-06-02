@@ -3,37 +3,38 @@
 
 import React from "react";
 import { motion, Variants } from "framer-motion";
-import { UserCheck, BarChart3, Crown, ShieldAlert, CheckCircle } from "lucide-react";
+import { UserCheck, BarChart3, Crown, ShieldAlert } from "lucide-react";
 
 /**
  * Seção 6: A SELEÇÃO (QUEM PODE ENTRAR)
  * 
- * Design: Fundo Escuro, Foco Total, Tipografia de Autoridade.
- * Objetivo: Instalar escassez real e filtrar a audiência de alto nível.
+ * Design: Fundo Escuro Absoluto (Luxury Void), Foco Central, Tipografia de Autoridade.
+ * Objetivo: Instalar escassez real, ancorar o valor do investimento e 
+ * filtrar a audiência (afastando os curiosos).
  */
 export default function Selection(): React.ReactElement {
 
-  // Definição dos critérios de seleção baseados na copy
+  // Definição dos critérios de seleção baseados na nova copy
   const criteria = [
     {
-      title: "Domínio Técnico Absoluto",
-      desc: "Reservado para mulheres que já dominam a sua técnica e entregam resultados reais para os seus clientes.",
-      icon: <UserCheck size={24} />
+      title: "Domínio Técnico",
+      desc: "Mulheres talentosas que entregam resultados inegáveis para seus clientes, mas estão travadas por uma estética amadora.",
+      icon: <UserCheck size={28} strokeWidth={1.5} />
     },
     {
-      title: "Tração de Crescimento",
-      desc: "Para profissionais que sabem do seu potencial para faturar múltiplos dígitos, mas que estão travadas por uma estética amadora.",
-      icon: <BarChart3 size={24} />
+      title: "Tração de Faturamento",
+      desc: "Profissionais que faturam — ou sabem que podem faturar — múltiplos dígitos e recusam a invisibilidade no mercado.",
+      icon: <BarChart3 size={28} strokeWidth={1.5} />
     },
     {
-      title: "Liderança de Categoria",
-      desc: "Marcas que decidiram colocar um fim definitivo na invisibilidade e desejam liderar o seu nicho de mercado.",
-      icon: <Crown size={24} />
+      title: "Visão de Status",
+      desc: "Marcas que decidiram jogar o jogo da percepção social e querem ser silenciosamente invejadas no seu nicho.",
+      icon: <Crown size={28} strokeWidth={1.5} />
     }
   ];
 
   const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
@@ -46,24 +47,29 @@ export default function Selection(): React.ReactElement {
   };
 
   return (
-    <section className="relative py-24 md:py-48 bg-[#0a0908] text-[#fbf4e4] overflow-hidden">
+    <section className="relative py-24 md:py-48 bg-[var(--color-luxury-void)] text-[#fbf4e4] overflow-hidden">
       
-      {/* Background Cinético Sutil */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-[radial-gradient(ellipse_at_center,var(--color-atelier-terracota)_0%,transparent_70%)] blur-[150px]" />
+      {/* Background Cinético Sutil (Cruz de Luz) */}
+      <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-screen">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[2px] bg-gradient-to-r from-transparent via-[var(--color-atelier-rose)]/20 to-transparent rotate-45 blur-[2px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[2px] bg-gradient-to-r from-transparent via-[var(--color-atelier-terracota)]/20 to-transparent -rotate-45 blur-[2px]" />
       </div>
 
       <div className="vrtice-container relative z-10">
+        
+        {/* ==========================================
+            HEADER DA SELEÇÃO (O CRIVO)
+            ========================================== */}
         <div className="flex flex-col items-center text-center mb-20 md:mb-32">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-[var(--color-atelier-terracota)]/30 bg-[var(--color-atelier-terracota)]/5 mb-10"
+            className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-[var(--color-atelier-terracota)]/30 bg-[var(--color-atelier-terracota)]/10 mb-10"
           >
             <ShieldAlert size={16} className="text-[var(--color-atelier-terracota)]" />
             <span className="font-roboto text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[var(--color-atelier-rose)]">
-              PROTOCOLO DE ADMISSÃO RESTRITO
+              A exclusividade é a nossa proteção
             </span>
           </motion.div>
 
@@ -71,49 +77,52 @@ export default function Selection(): React.ReactElement {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="headline-vrtice max-w-5xl mb-10"
           >
-            Exclusividade não é um gatilho. <br />
+            A exclusividade não é um gatilho. <br className="hidden md:block" />
             <span className="text-[var(--color-atelier-terracota)] italic">É a nossa regra de operação.</span>
           </motion.h2>
 
           <motion.div
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 0.6 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="max-w-2xl text-[1.1rem] md:text-[1.2rem] font-light leading-relaxed space-y-4"
+            transition={{ delay: 0.3, duration: 1 }}
+            className="max-w-3xl text-[1.1rem] md:text-[1.2rem] font-light leading-relaxed space-y-6 text-white/80"
           >
             <p>
-              Nós não somos uma fábrica de logotipos e não operamos por volume. 
-              O Valore é um movimento de ascensão social e de mercado.
+              O Vallore não é uma fábrica de templates e não opera por volume. É um movimento restrito de ascensão social e de mercado.
             </p>
-            <p className="font-medium text-[#fbf4e4]/90 border-b border-[var(--color-atelier-terracota)]/20 pb-4 inline-block">
-              Investimento correspondente a ferramentas de alta performance (na casa dos milhares de reais).
+            <p className="font-medium text-white italic border-b border-[var(--color-atelier-terracota)]/30 pb-6 inline-block">
+              "Este projeto exige um investimento correspondente a ativos de alta performance (na casa dos milhares de reais) e é reservado estritamente para o perfil abaixo."
             </p>
           </motion.div>
         </div>
 
-        {/* Grid de Critérios */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+        {/* ==========================================
+            GRID DE CRITÉRIOS (OS 3 PILARES)
+            ========================================== */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-24">
           {criteria.map((item, i) => (
             <motion.div
               key={i}
               custom={i}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               variants={cardVariants}
-              className="glass-panel p-10 bg-white/5 border-white/5 flex flex-col items-start gap-8"
+              whileHover={{ y: -5 }}
+              className="glass-panel p-10 bg-[#121212]/80 border-white/5 flex flex-col items-start gap-8 hover:bg-white/[0.02] hover:border-[var(--color-atelier-terracota)]/30 transition-all duration-500 group"
             >
-              <div className="text-[var(--color-atelier-terracota)]">
+              <div className="w-14 h-14 rounded-2xl bg-[var(--color-atelier-grafite)]/20 flex items-center justify-center text-[var(--color-atelier-terracota)] group-hover:scale-110 group-hover:bg-[var(--color-atelier-terracota)] group-hover:text-white transition-all duration-500">
                 {item.icon}
               </div>
               <div className="space-y-4">
-                <h3 className="font-elegant text-2xl leading-tight text-[#fbf4e4]">
+                <h3 className="font-elegant text-3xl leading-tight text-white">
                   {item.title}
                 </h3>
-                <p className="text-sm md:text-base opacity-50 leading-relaxed font-light">
+                <p className="text-sm md:text-base opacity-50 group-hover:opacity-90 leading-relaxed font-light transition-opacity duration-500 font-roboto">
                   {item.desc}
                 </p>
               </div>
@@ -121,28 +130,34 @@ export default function Selection(): React.ReactElement {
           ))}
         </div>
 
-        {/* Crivo Final */}
+        {/* ==========================================
+            CRIVO FINAL (CAIXA DE IMPACTO TÁTICO)
+            ========================================== */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="flex flex-col items-center justify-center p-12 rounded-[3rem] border border-white/10 bg-[var(--color-atelier-grafite)]/20 backdrop-blur-3xl text-center"
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col items-center justify-center p-12 md:p-20 rounded-[2rem] md:rounded-[3rem] border border-white/10 bg-white/5 backdrop-blur-3xl text-center relative overflow-hidden"
         >
-          <p className="font-roboto text-sm uppercase tracking-[0.5em] text-[var(--color-atelier-rose)] mb-6">
-            AVISO DA DIRETORIA
+          {/* Efeito de Reflexo no Vidro */}
+          <div className="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12" />
+
+          <p className="font-roboto text-xs uppercase tracking-[0.5em] text-[var(--color-atelier-rose)] mb-8 font-bold">
+            A DIRETORIA DE PROJETOS
           </p>
-          <h4 className="font-elegant text-3xl md:text-4xl mb-6">
-            Você não pode simplesmente clicar e comprar o Valore.
+          <h4 className="font-elegant text-3xl md:text-5xl lg:text-6xl mb-8 leading-[1.1] text-white">
+            Você não pode simplesmente passar o cartão e <span className="text-[var(--color-atelier-madeira)] italic">comprar o Vallore.</span>
           </h4>
-          <p className="text-[1.1rem] md:text-[1.25rem] text-[var(--color-atelier-creme)] font-medium max-w-3xl">
-            Você precisa ser aprovada pela nossa diretoria de projetos. <br className="hidden md:block" />
-            <span className="italic opacity-60">A qualidade irretocável do Atelier exige esse crivo.</span>
+          <p className="text-[1.1rem] md:text-[1.3rem] text-white/80 font-light max-w-3xl leading-relaxed">
+            Você precisa passar pelo crivo da nossa diretoria. Avaliaremos o seu momento, o seu produto e a sua ambição antes de aceitar instalar a nossa infraestrutura na sua marca.
           </p>
         </motion.div>
+
       </div>
 
-      {/* Divisória Editorial Sutil */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-t from-[var(--color-atelier-terracota)] to-transparent" />
+      {/* Divisória Editorial Sutil para guiar ao fechamento (CTA) */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-t from-[var(--color-atelier-terracota)] to-transparent opacity-50" />
     </section>
   );
 }

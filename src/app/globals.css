@@ -9,8 +9,11 @@
   --color-atelier-rose: #c9a39b;
   --color-atelier-grafite: #7a7470;
 
-  /* Profundidade de Luxo e Contraste */
-  --color-luxury-void: #0a0908;
+  /* * REENGENHARIA DA ATMOSFERA:
+   * Substituição do preto genérico por um tom ultra-premium de Terracota/Espresso Profundo.
+   * Confere peso de mercado, acolhimento feminino e elimina o visual amador.
+   */
+  --color-luxury-void: #130b06; 
   --color-luxury-sheen: rgba(255, 255, 255, 0.65);
   --color-glass-specular: rgba(255, 255, 255, 0.95);
   
@@ -44,8 +47,8 @@
   }
 
   body {
-    background-color: var(--color-atelier-creme);
-    color: var(--color-atelier-grafite);
+    background-color: var(--color-luxury-void);
+    color: var(--color-atelier-creme);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -53,14 +56,14 @@
     overflow-x: hidden;
     position: relative;
     
-    /* * Iluminação Retinal (Cinematográfica): Profundidade volumétrica e Vignetting.
-     * As bordas são ligeiramente mais escuras para forçar o foco no centro,
-     * criando um palco de alto contraste para o design.
+    /* * FUSION RADIAL GRADIENT (LUXO FEMININO):
+     * Uma malha de iluminação retinal que sobrepõe tons de Rosé Atômico, 
+     * Terracota Orgânico e uma base Espresso. Aporta calor, sofisticação e alto contraste.
      */
     background-image: 
-      radial-gradient(circle at 100% 0%, rgba(201, 163, 155, 0.25) 0%, transparent 50%),
-      radial-gradient(circle at 0% 100%, rgba(173, 111, 64, 0.2) 0%, transparent 50%),
-      radial-gradient(circle at 50% 50%, rgba(251, 244, 228, 1) 0%, rgba(232, 218, 200, 1) 100%);
+      radial-gradient(circle at 90% 10%, rgba(201, 163, 155, 0.35) 0%, transparent 60%),
+      radial-gradient(circle at 10% 90%, rgba(173, 111, 64, 0.3) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, #1a100a 0%, var(--color-luxury-void) 100%);
     background-attachment: fixed;
   }
 
@@ -106,22 +109,22 @@
 @layer components {
   /* Painéis de Vidro Espectral otimizados para Mobile */
   .glass-panel {
-    @apply bg-white/40 backdrop-blur-2xl border border-white/40;
+    @apply bg-white/10 backdrop-blur-2xl border border-white/10;
     box-shadow: 
-      inset 0 1px 1px 0 var(--color-glass-specular),
-      0 12px 32px -4px rgba(122, 116, 112, 0.04),
-      0 32px 64px -12px rgba(74, 68, 65, 0.08);
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.15),
+      0 12px 32px -4px rgba(0, 0, 0, 0.2),
+      0 32px 64px -12px rgba(0, 0, 0, 0.4);
     border-radius: clamp(1.5rem, 4vw, 2.5rem);
     transition: transform 0.5s var(--ease-fluid), box-shadow 0.5s var(--ease-fluid);
   }
 
   .premium-button {
-    @apply relative overflow-hidden rounded-full font-bold uppercase tracking-[0.2em] text-[11px] md:text-[12px] h-14 md:h-16 px-8 md:px-12 flex items-center justify-center gap-3 transition-all duration-500 bg-[var(--color-atelier-grafite)] text-white;
-    box-shadow: 0 10px 20px -5px rgba(122, 116, 112, 0.3);
+    @apply relative overflow-hidden rounded-full font-bold uppercase tracking-[0.2em] text-[11px] md:text-[12px] h-14 md:h-16 px-8 md:px-12 flex items-center justify-center gap-3 transition-all duration-500 bg-[var(--color-atelier-creme)] text-[var(--color-luxury-void)];
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
   }
 
   .premium-button:hover {
-    @apply bg-[var(--color-atelier-terracota)] -translate-y-1;
+    @apply bg-[var(--color-atelier-terracota)] text-white -translate-y-1;
     box-shadow: 0 20px 40px -10px rgba(173, 111, 64, 0.4);
   }
 
@@ -129,13 +132,13 @@
   .headline-vrtice {
     font-family: var(--font-elegant);
     font-size: var(--text-h1);
-    line-height: 0.8; /* CRÍTICO: Reduzido de 1.1 para 1 para compactar a altura da caixa de texto */
+    line-height: 0.8; /* Conservado conforme solicitado */
     letter-spacing: -0.02em;
   }
 
   .subheadline-vrtice {
     font-size: var(--text-h2);
-    line-height: 0.9; /* CRÍTICO: Reduzido de 1.4 para 1.3 para aproximar as linhas do parágrafo */
+    line-height: 0.9; /* Conservado conforme solicitado */
     opacity: 0.8;
   }
 

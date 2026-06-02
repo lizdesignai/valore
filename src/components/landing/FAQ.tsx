@@ -14,19 +14,20 @@ interface FAQItemProps {
 
 /**
  * FAQItem - Unidade Atômica do FAQ
+ * Design minimalista, comportando-se como uma lista editorial de alto padrão.
  */
 const FAQItem = ({ question, answer, isOpen, onClick }: FAQItemProps) => {
   return (
-    <div className="border-b border-white/5 py-2">
+    <div className="border-b border-white/10 py-2">
       <button
         onClick={onClick}
-        className="w-full py-8 flex items-center justify-between text-left group transition-all"
+        className="w-full py-8 flex items-center justify-between text-left group transition-all cursor-pointer"
       >
-        <span className={`font-elegant text-xl md:text-2xl transition-colors duration-500 ${isOpen ? 'text-[var(--color-atelier-terracota)]' : 'text-[#fbf4e4]/80 group-hover:text-[#fbf4e4]'}`}>
+        <span className={`font-elegant text-xl md:text-2xl transition-colors duration-500 pr-8 ${isOpen ? 'text-[var(--color-atelier-terracota)]' : 'text-white/80 group-hover:text-white'}`}>
           {question}
         </span>
-        <div className={`shrink-0 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center transition-transform duration-500 ${isOpen ? 'rotate-180 border-[var(--color-atelier-terracota)] text-[var(--color-atelier-terracota)]' : 'text-white/40 group-hover:text-white'}`}>
-          {isOpen ? <Minus size={16} /> : <Plus size={16} />}
+        <div className={`shrink-0 w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-500 ${isOpen ? 'rotate-180 border-[var(--color-atelier-terracota)] text-[var(--color-atelier-terracota)] bg-[var(--color-atelier-terracota)]/10' : 'border-white/10 text-white/40 group-hover:text-white group-hover:border-white/30'}`}>
+          {isOpen ? <Minus size={18} /> : <Plus size={18} />}
         </div>
       </button>
 
@@ -39,7 +40,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }: FAQItemProps) => {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="overflow-hidden"
           >
-            <div className="pb-10 pr-12 text-[#fbf4e4]/60 text-base md:text-lg leading-relaxed font-light">
+            <div className="pb-10 pr-12 text-white/60 text-sm md:text-base leading-relaxed font-light font-roboto">
               {answer}
             </div>
           </motion.div>
@@ -51,46 +52,71 @@ const FAQItem = ({ question, answer, isOpen, onClick }: FAQItemProps) => {
 
 /**
  * Seção 8: FAQ - O ÚLTIMO CRIVO
- * Design: Fundo Escuro, Tipografia Limpa, Controle Absoluto.
+ * Design: Fundo Escuro Premium, Tipografia Limpa, Controle Absoluto.
  */
 export default function FAQ(): React.ReactElement {
+  // Estado para controlar qual pergunta está aberta (comportamento de acordeão exclusivo)
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
+  // Copy atualizada com a nomenclatura VALLORE
   const faqs = [
     {
-      q: "Qual é o valor do investimento no protocolo Valore?",
-      a: "O Valore não é um serviço operacional genérico. Trata-se da instalação de uma infraestrutura completa de autoridade digital. O projeto exige um investimento correspondente a ativos de alta performance no mercado corporativo, na casa dos milhares de reais. O escopo financeiro exato e as vias de acesso são apresentados exclusivamente na reunião de diagnóstico."
+      q: "Qual é o valor do investimento no protocolo Vallore?",
+      a: "O Vallore não é um serviço operacional barato. Trata-se da construção de uma percepção premium. O projeto exige um investimento na casa dos milhares de reais. O escopo financeiro exato é apresentado exclusivamente na reunião de diagnóstico, caso a sua aplicação seja aprovada pelo crivo do Vallore."
     },
     {
-      q: "Como funciona a entrega? Terei que responder briefings gigantes?",
-      a: "Definitivamente não. O nosso objetivo é eliminar a sua fadiga de decisão estética. Toda a orquestração do projeto acontece dentro do Atelier, o nosso ambiente isolado de telemetria. Você não lidará com pastas desorganizadas no Drive ou grupos caóticos de WhatsApp. Você apenas opera o sistema de cima."
+      q: "Como funciona a entrega? Terei que responder briefings exaustivos?",
+      a: "Definitivamente não. O nosso objetivo é eliminar o seu esforço mental. A nossa equipe atua como arquiteta da sua percepção. Toda a orquestração do projeto acontece dentro do Atelier. Sem grupos caóticos de WhatsApp. Você apenas monitora e valida a sua marca com previsibilidade e sofisticação."
     },
     {
-      q: "Eu preciso ter uma audiência gigante para o Valore funcionar?",
-      a: "O Valore foi desenhado exatamente para tornar o volume de seguidores irrelevante. Quando a sua marca transmite o peso do Luxo Silencioso, você converte pelo status e pela confiança instantânea, não pelo número de likes."
+      q: "Eu preciso ter uma audiência gigante para o Vallore funcionar?",
+      a: "Não. O Vallore torna o número de seguidores irrelevante. A Arquitetura de Autoridade Percebida permite que você atraia seu cliente ideal pelo peso do seu posicionamento visual. Quando a sua marca transmite a estética do Luxo Silencioso, você converte pela percepção instantânea de valor, e não pelo barulho orgânico."
     },
     {
       q: "O que acontece se a minha aplicação for recusada?",
-      a: "Nós operamos com um limite rigoroso de clientes simultâneos para garantir a qualidade irretocável do Atelier. Se a nossa diretoria entender que o seu modelo de negócio ainda não possui a tração necessária, sua aplicação será declinada. A exclusividade é a nossa proteção e a sua garantia."
+      a: "O Vallore opera com um limite cirúrgico de clientes simultâneos. Se a nossa diretoria analisar a sua aplicação e entender que o seu modelo de negócio ainda não tem tração para absorver o impacto da Engenharia de Presença Premium, seremos diretos e sua aplicação será declinada. Não vendemos ilusões."
     },
     {
       q: "O que exatamente eu recebo ao final do processo?",
       a: (
-        <ul className="space-y-3">
-          <li className="flex gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2" /> Identidade Visual de Alta Frequência</li>
-          <li className="flex gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2" /> Animação Cinematográfica do logotipo</li>
-          <li className="flex gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2" /> Landing Page de Alta Conversão Next.js</li>
-          <li className="flex gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2" /> Brindes Físicos de altíssimo padrão</li>
-          <li className="flex gap-3"><div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2" /> Mentoria de Calibragem Mensal</li>
-        </ul>
+        <div className="space-y-4 pt-2">
+          <p>Você assume o controle de um ecossistema. O protocolo Vallore entrega:</p>
+          <ul className="space-y-3 mt-4">
+            <li className="flex items-start gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2 shrink-0" /> 
+              <span><strong className="text-white/80 font-medium">Identidade Visual de Alta Frequência</strong> (sistema cromático, tipografia e refinamento visual).</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2 shrink-0" /> 
+              <span><strong className="text-white/80 font-medium">Animação Cinematográfica</strong> do seu logotipo.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2 shrink-0" /> 
+              <span><strong className="text-white/80 font-medium">Landing Page de Alta Conversão</strong> com visual premium.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2 shrink-0" /> 
+              <span><strong className="text-white/80 font-medium">Materialização de Status</strong> através de Brindes Físicos elegantes.</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-[var(--color-atelier-terracota)] mt-2 shrink-0" /> 
+              <span><strong className="text-white/80 font-medium">Acesso à Mentoria de Calibragem Mensal</strong> para sustentar a sua marca forte a longo prazo.</span>
+            </li>
+          </ul>
+        </div>
       )
     }
   ];
 
   return (
-    <section className="relative py-24 md:py-48 bg-[#0a0908] text-[#fbf4e4]">
-      <div className="vrtice-container">
-        <div className="max-w-4xl">
+    <section className="relative py-24 md:py-48 bg-[var(--color-luxury-void)] text-[#fbf4e4] overflow-hidden">
+      
+      {/* Iluminação de fundo sutil para dar destaque ao título */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-[var(--color-atelier-terracota)]/5 to-transparent pointer-events-none rounded-bl-full" />
+
+      <div className="vrtice-container relative z-10">
+        <div className="max-w-4xl mx-auto md:mx-0">
+          
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -107,12 +133,19 @@ export default function FAQ(): React.ReactElement {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-elegant text-4xl md:text-6xl mb-16"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="font-elegant text-4xl md:text-5xl lg:text-6xl mb-16 leading-[1.1]"
           >
             O Último <span className="italic text-[var(--color-atelier-terracota)]">Crivo.</span>
           </motion.h2>
 
-          <div className="mt-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-12"
+          >
             {faqs.map((faq, index) => (
               <FAQItem
                 key={index}
@@ -122,7 +155,8 @@ export default function FAQ(): React.ReactElement {
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               />
             ))}
-          </div>
+          </motion.div>
+          
         </div>
       </div>
     </section>

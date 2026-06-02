@@ -3,31 +3,55 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, Volume2, VolumeX, X } from "lucide-react"; // Adicionado ícone X para o botão de fechar
+import { Play, Pause, Volume2, VolumeX, X } from "lucide-react";
 import { cn } from "../../lib/utils";
-import ApplicationForm from "../forms/ApplicationForm"; // Importação do Formulário para dentro do Modal
+import ApplicationForm from "../forms/ApplicationForm";
+
+/**
+ * TEMPO DE DELAY DA VSL (Em milissegundos)
+ * Defina aqui o tempo exato em que o botão e o scroll devem ser liberados.
+ * Exemplo: 10 segundos = 10000 | 5 minutos = 300000
+ */
+const PITCH_TIME_MS = 10000; 
 
 /**
  * HeroVSL - A Fase 1 (Above the Fold)
  * 
  * Implementa a estética Old Money com foco absoluto em autoridade.
- * O scroll é travado via 'lock-scroll' no body para garantir que a 
- * jornada comece obrigatoriamente pela VSL.
+ * O scroll é travado via 'lock-scroll' e o CTA permanece oculto até 
+ * o momento exato do Pitch.
  */
 export default function HeroVSL(): React.ReactElement {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   
-  // NOVO: Estado para controlar a abertura do Popup (Modal)
+  // Estado para controlar a abertura do Popup (Modal)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Estado para controlar a liberação do conteúdo (Delay da VSL)
+  const [isPitchReached, setIsPitchReached] = useState(false);
 
-  // Efeito para travar o scroll na montagem do componente (Fase 1)
+  // Efeito para travar o scroll e disparar o cronômetro do Pitch
   useEffect(() => {
-    // Mantém a página travada para focar na VSL
-    document.body.classList.add('lock-scroll');
-    return () => document.body.classList.remove('lock-scroll');
-  }, []);
+    // Se o pitch ainda não chegou, trava a tela.
+    if (!isPitchReached) {
+      document.body.classList.add('lock-scroll');
+    } else {
+      document.body.classList.remove('lock-scroll');
+    }
+
+    // Inicia o cronômetro para liberar o conteúdo
+    const timer = setTimeout(() => {
+      setIsPitchReached(true);
+    }, PITCH_TIME_MS);
+
+    // Limpeza de segurança caso o componente seja desmontado
+    return () => {
+      clearTimeout(timer);
+      document.body.classList.remove('lock-scroll');
+    };
+  }, [isPitchReached]);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -48,7 +72,7 @@ export default function HeroVSL(): React.ReactElement {
   };
 
   return (
-    <section className="relative min-h-screen w-full flex flex-col items-center justify-center pt-12 pb-24 overflow-hidden bg-[var(--color-luxury-void)]">
+    <section className="relative min-h-screen w-full flex flex-col items-center justify-center pt-12 pb-24 overflow-hidden">
       
       {/* Background Atmosphere: Profundidade Espectral */}
       <div className="absolute inset-0 pointer-events-none">
@@ -65,7 +89,7 @@ export default function HeroVSL(): React.ReactElement {
           transition={{ duration: 1, delay: 0.5 }}
           className="font-roboto text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-bold text-[var(--color-atelier-creme)] mb-6"
         >
-          UM AVISO PARA MULHERES QUE VENDEM SERVIÇOS DE ALTO VALOR
+          UM AVISO PARA MULHERES QUE RECUSAM PARECER PEQUENAS NO DIGITAL
         </motion.span>
 
         {/* Headline H1: Tipografia Editorial Fluida */}
@@ -75,8 +99,8 @@ export default function HeroVSL(): React.ReactElement {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="headline-vrtice text-[var(--color-atelier-creme)] mb-8 max-w-5xl"
         >
-          A Ciência da Autoridade Digital: <br className="hidden md:block" />
-          <span className="text-[var(--color-atelier-terracota)] italic">Como mulheres com metade do seu talento estão cobrando o triplo de você.</span>
+          A Arquitetura da Autoridade Percebida: <br className="hidden md:block" />
+          <span className="text-[var(--color-atelier-terracota)] italic">Por que mulheres com metade do seu talento estão cobrando o triplo de você.</span>
         </motion.h1>
 
         {/* Subheadline H2 */}
@@ -84,10 +108,10 @@ export default function HeroVSL(): React.ReactElement {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.8, y: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
-          className="subheadline-vrtice text-[var(--color-atelier-creme)] max-w-3xl mb-14 font-light"
+          className="subheadline-vrtice text-[var(--color-atelier-creme)] max-w-4xl mb-14 font-light"
         >
-          O mercado não avalia a sua competência. Ele avalia a sua embalagem. 
-          Descubra como a <span className="italic font-medium">Arquitetura de Autoridade Percebida</span> transforma a sua marca em um ativo de alto valor.
+          O mercado não avalia a sua competência. Ele julga a sua embalagem. 
+          Descubra como o <span className="italic font-medium">Vallore</span> transforma a sua marca em um ativo de alto status através de códigos visuais que aniquilam a concorrência antes mesmo de você abrir a boca.
         </motion.p>
 
         {/* Área do Vídeo: Mockup Minimalista Blindado */}
@@ -155,24 +179,32 @@ export default function HeroVSL(): React.ReactElement {
           VERIFIQUE O VOLUME DO SEU DISPOSITIVO
         </motion.div>
 
-        {/* NOVO: Botão de Chamada para o Popup */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.2, duration: 0.8, ease: "easeOut" }}
-          className="mt-10"
-        >
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="premium-button"
-          >
-            CANDIDATAR-ME AO VALLORE
-          </button>
-        </motion.div>
+        {/* Botão de Chamada para o Popup (Aparece Apenas Pós-Pitch) */}
+        <AnimatePresence>
+          {isPitchReached && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="mt-10 flex flex-col items-center gap-3"
+            >
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="premium-button"
+              >
+                SOLICITAR ANÁLISE DE PERFIL
+              </button>
+              <p className="text-[9px] uppercase tracking-widest text-[var(--color-atelier-creme)]/40 text-center max-w-xs">
+                *Aviso: Este é um serviço restrito. O preenchimento do formulário não garante a sua aprovação.
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
 
-      {/* NOVO: Infraestrutura do Popup (Modal) */}
+      {/* Infraestrutura do Popup (Modal) */}
       <AnimatePresence>
         {isModalOpen && (
           <motion.div

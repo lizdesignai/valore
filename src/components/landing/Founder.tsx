@@ -38,10 +38,10 @@ function BackgroundMosaic() {
     ALL_ITEMS.forEach(item => {
       if (!item.startsWith('empty')) {
         const layer = Math.random();
-        // Calibrado para ser mais escuro e sutil, não competindo com o texto
-        if (layer < 0.33) depthMap[item] = { scale: 0.5, blur: 8, opacity: 0.05 }; 
-        else if (layer < 0.66) depthMap[item] = { scale: 0.8, blur: 4, opacity: 0.1 }; 
-        else depthMap[item] = { scale: 1.1, blur: 2, opacity: 0.15 }; 
+        // Calibrado para ser muito sutil, não competindo com o texto principal
+        if (layer < 0.33) depthMap[item] = { scale: 0.5, blur: 8, opacity: 0.03 }; 
+        else if (layer < 0.66) depthMap[item] = { scale: 0.8, blur: 4, opacity: 0.06 }; 
+        else depthMap[item] = { scale: 1.1, blur: 2, opacity: 0.1 }; 
       }
     });
     setDepths(depthMap);
@@ -74,18 +74,13 @@ function BackgroundMosaic() {
         }
         return newGrid;
       });
-    }, 2500); // Troca a cada 2.5s para um ritmo mais elegante
+    }, 2500); 
 
     return () => clearInterval(interval);
   }, []);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    const currentSrc = e.currentTarget.src;
-    if (currentSrc.includes('.png')) {
-      e.currentTarget.src = currentSrc.replace('.png', '.svg');
-    } else {
-      e.currentTarget.style.display = 'none'; 
-    }
+    e.currentTarget.style.display = 'none'; 
   };
 
   return (
@@ -98,7 +93,8 @@ function BackgroundMosaic() {
                 <motion.img
                   layout
                   key={item}
-                  src={`/images/login/${item.replace('_dup', '')}.png`}
+                  // CORREÇÃO: Forçando a extensão .svg conforme a sua estrutura
+                  src={`/images/login/${item.replace('_dup', '')}.svg`}
                   onError={handleImageError}
                   initial={{ opacity: 0, filter: 'blur(20px) grayscale(100%) brightness(200%)' }}
                   animate={{ 
@@ -120,8 +116,8 @@ function BackgroundMosaic() {
           </div>
         ))}
       </div>
-      {/* Máscara de gradiente para suavizar as bordas do mosaico */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--color-luxury-void)_80%)]" />
+      {/* Máscara de gradiente para fundir o mosaico com o Luxury Void */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--color-luxury-void)_90%)]" />
     </div>
   );
 }
@@ -131,24 +127,24 @@ function BackgroundMosaic() {
 // ==========================================
 export default function Founder(): React.ReactElement {
   return (
-    <section className="relative py-24 md:py-40 bg-[var(--color-luxury-void)] text-[#fbf4e4] overflow-hidden">
+    <section className="relative py-24 md:py-48 bg-[var(--color-luxury-void)] text-[#fbf4e4] overflow-hidden">
       
       {/* O Mosaico Dinâmico roda ao fundo */}
       <BackgroundMosaic />
 
       <div className="vrtice-container relative z-10">
         
-        {/* Etiqueta Superior */}
+        {/* Etiqueta Superior (Overline) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="flex justify-center mb-16"
         >
-          <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
+          <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full border border-[var(--color-atelier-terracota)]/20 bg-[var(--color-atelier-terracota)]/5 backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-[var(--color-atelier-terracota)] animate-pulse" />
-            <span className="font-roboto text-[10px] uppercase tracking-[0.4em] font-bold text-white/70">
-              A ARQUITETA POR TRÁS DO SISTEMA
+            <span className="font-roboto text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-bold text-[var(--color-atelier-rose)]">
+              A ARQUITETA DA PERCEPÇÃO
             </span>
           </div>
         </motion.div>
@@ -159,44 +155,49 @@ export default function Founder(): React.ReactElement {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-6xl mx-auto glass-panel border border-white/10 bg-[#121212]/80 p-0 overflow-hidden flex flex-col md:flex-row shadow-[0_40px_100px_rgba(0,0,0,0.5)]"
+          className="w-full max-w-6xl mx-auto glass-panel border border-white/5 bg-white/[0.02] p-0 overflow-hidden flex flex-col md:flex-row shadow-[0_60px_120px_rgba(0,0,0,0.8)]"
         >
           {/* Lado Esquerdo: Fotografia */}
           <div className="w-full md:w-2/5 relative min-h-[400px] md:min-h-[600px] bg-[#1a1a1a]">
-            {/* 
-              IMPORTANTE: Certifique-se de ter a imagem 'liz-profile.jpg' 
-              na sua pasta public/images/ 
-            */}
             <img 
+<<<<<<< HEAD
               src="/images/liz-profile.JPG" 
               alt="Liz - Diretora Criativa" 
               className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-80 mix-blend-luminosity hover:grayscale-0 transition-all duration-1000"
+=======
+              src="/images/liz-profile.jpg" 
+              alt="Liz - Diretora de Posicionamento" 
+              className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-80 mix-blend-luminosity hover:grayscale-0 hover:opacity-100 transition-all duration-1000"
+>>>>>>> a59bf33 (.)
             />
             {/* Gradiente interno para fundir a foto ao design escuro */}
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[#121212]/90 via-[#121212]/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-[var(--color-luxury-void)]/90 via-[var(--color-luxury-void)]/30 to-transparent" />
           </div>
 
-          {/* Lado Direito: Copy de Autoridade */}
+          {/* Lado Direito: Copy Cirúrgica */}
           <div className="w-full md:w-3/5 p-10 md:p-16 lg:p-20 flex flex-col justify-center relative">
             <Quote size={40} strokeWidth={1} className="text-[var(--color-atelier-terracota)]/20 absolute top-10 right-10" />
             
             <h3 className="font-elegant text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-2 text-white">
               Liz.
             </h3>
-            <p className="font-roboto text-xs md:text-sm uppercase tracking-[0.3em] text-[var(--color-atelier-terracota)] font-bold mb-8">
-              Diretora Criativa & Especialista em Identidade Visual
+            <p className="font-roboto text-[10px] md:text-xs uppercase tracking-[0.3em] text-[var(--color-atelier-terracota)] font-bold mb-10">
+              Diretora de Posicionamento Social & Design Estratégico
             </p>
 
-            <div className="space-y-6 text-sm md:text-base leading-relaxed font-light text-white/70">
+            <div className="space-y-6 text-sm md:text-base leading-relaxed font-light text-white/70 font-roboto">
               <p>
-                Durante a minha jornada projetando identidades visuais de alta performance, percebi um padrão rigoroso: marcas que dependem de convencimento para vender estão destinadas à exaustão.
+                O mercado de branding tradicional faliu no momento em que o design se tornou uma commodity. Vi de perto mulheres brilhantes entrarem em exaustão técnica, tentando provar sua capacidade na base do grito, enquanto concorrentes medianas faturavam o triplo apenas por dominarem os códigos visuais de status.
               </p>
               <p>
-                O meu foco nunca foi apenas entregar estética. O meu trabalho consiste em desenhar e gerir a engenharia da percepção. Ao instalar códigos visuais precisos e processos otimizados, elimino a necessidade de provar constantemente o valor do seu serviço. 
+                A minha missão não é "deixar o seu perfil bonito". Eu construo hierarquia social digital. Ao instalar os nossos protocolos visuais, nós substituímos o seu improviso por uma infraestrutura de percepção implacável. O objetivo é cirúrgico: eliminar a sua necessidade de convencimento e forçar o mercado a presumir o seu sucesso em milissegundos.
               </p>
-              <p className="text-white font-medium italic border-l-2 border-[var(--color-atelier-terracota)] pl-4">
-                "Uma marca não é o que você diz que é. É o que o mercado sente quando você entra na sala. E nós desenhamos essa sala."
-              </p>
+              
+              <div className="pt-4">
+                <p className="text-white/90 font-medium italic border-l-2 border-[var(--color-atelier-terracota)] pl-5 py-2">
+                  "Se a sua marca parece pequena, o mercado automaticamente assume que a sua competência também é. A minha engenharia garante que a sua presença fale por você antes mesmo do primeiro contato."
+                </p>
+              </div>
             </div>
 
             <div className="mt-12 flex items-center gap-6 pt-8 border-t border-white/10">
@@ -205,8 +206,8 @@ export default function Founder(): React.ReactElement {
                 alt="LizDesign Logo" 
                 className="h-8 object-contain grayscale opacity-50"
               />
-              <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">
-                Assinatura de Excelência • LizDesign
+              <p className="font-roboto text-[9px] md:text-[10px] uppercase tracking-[0.25em] opacity-40 font-bold">
+                Liz Design
               </p>
             </div>
           </div>

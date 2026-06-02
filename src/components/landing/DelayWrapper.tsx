@@ -11,14 +11,14 @@ interface DelayWrapperProps {
 }
 
 /**
- * DelayWrapper - O Maestro de Retenção VALORE.
+ * DelayWrapper - O Maestro de Retenção VALLORE.
  * 
- * Agora alimentado pelo hook useVSLDelay, tornando-o inteligente e
- * conectado à memória (localStorage) do utilizador.
+ * Controla a revelação da Fase 2 da Landing Page. Alimentado pelo hook 
+ * useVSLDelay, tornando-o inteligente e conectado à memória (localStorage).
  */
 export default function DelayWrapper({ children, delayInSeconds }: DelayWrapperProps): React.ReactElement {
   
-  // Substituímos toda a lógica complexa por uma única linha elegante
+  // O nosso hook devolve verdadeiro ou falso com base no tempo e na memória
   const isVisible = useVSLDelay(delayInSeconds);
 
   return (
