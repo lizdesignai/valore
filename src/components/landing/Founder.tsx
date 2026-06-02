@@ -168,7 +168,7 @@ export default function Founder(): React.ReactElement {
               na sua pasta public/images/ 
             */}
             <img 
-              src="/images/liz-profile.jpg" 
+              src="/images/liz-profile.JPG" 
               alt="Liz - Diretora Criativa" 
               className="absolute inset-0 w-full h-full object-cover object-center grayscale opacity-80 mix-blend-luminosity hover:grayscale-0 transition-all duration-1000"
             />
