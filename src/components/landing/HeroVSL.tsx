@@ -89,7 +89,7 @@ export default function HeroVSL(): React.ReactElement {
           transition={{ duration: 1, delay: 0.5 }}
           className="font-roboto text-[10px] md:text-[12px] uppercase tracking-[0.4em] font-bold text-[var(--color-atelier-creme)] mb-6"
         >
-          UM AVISO PARA MULHERES QUE RECUSAM PARECER PEQUENAS NO DIGITAL
+          UM AVISO PARA MULHERES QUE RECUSAM PARECER PEQUENAS
         </motion.span>
 
         {/* Headline H1: Tipografia Editorial Fluida */}
@@ -99,7 +99,7 @@ export default function HeroVSL(): React.ReactElement {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="headline-vrtice text-[var(--color-atelier-creme)] mb-8 max-w-5xl"
         >
-          A Arquitetura da Autoridade Percebida: <br className="hidden md:block" />
+          Você não precisa mais se sentir inferior <br className="hidden md:block" />
           <span className="text-[var(--color-atelier-terracota)] italic">Por que mulheres com metade do seu talento estão cobrando o triplo de você.</span>
         </motion.h1>
 
