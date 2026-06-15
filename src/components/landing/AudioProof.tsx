@@ -19,24 +19,24 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: "Camila R.",
-    role: "Clínica de Estética Avançada",
-    quote: "Antes do Vallore, eu competia por preço. Hoje, o mercado presume o meu valor no segundo em que abre o meu perfil. O investimento retornou no primeiro contrato.",
-    audioSrc: "/audios/relato-1.mp3", // <-- Coloca o teu áudio real na pasta public/audios/
+    name: "Kayla F.",
+    role: "Agência de Marketing",
+    quote: "Sem palavras com a identidade visual. Era uma ideia muito abstrata na minha cabeça, eu não sabia explicar, mas você soube traduzir muito bem.",
+    audioSrc: "/audios/audio-kaylla.wav", // <-- Coloca o teu áudio real na pasta public/audios/
   },
   {
     id: 2,
-    name: "Dra. Juliana M.",
-    role: "Harmonização Orofacial",
-    quote: "A Liz não entregou apenas um design. Ela instalou uma arquitetura de autoridade que fez as minhas pacientes pararem de pedir desconto imediatamente.",
-    audioSrc: "/audios/relato-2.mp3",
+    name: "Manuelle A",
+    role: "Psicóloga Clínica",
+    quote: "Você foi super atenciosa e detalhista, conseguir capturar todas as sensações que eu queria transmitir com a minha identidade",
+    audioSrc: "/audios/audio-manuelle.wav",
   },
   {
     id: 3,
-    name: "Sofia L.",
-    role: "Mentora de Alta Performance",
-    quote: "O nível de sofisticação do processo é assustador. O Atelier eliminou toda a minha ansiedade e entregou uma marca que finalmente reflete o meu nível técnico.",
-    audioSrc: "/audios/relato-3.mp3",
+    name: "Renata V.",
+    role: "Moda Íntima",
+    quote: "Ficou geninal. É um nível de profissionalismo que eu não esperava na minha marca. Só tenho a agradecer.",
+    audioSrc: "/audios/audio-renata.wav",
   }
 ];
 
